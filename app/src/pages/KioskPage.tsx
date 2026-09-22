@@ -181,7 +181,7 @@ export function KioskPage() {
       <div className="absolute top-0 inset-x-0 flex items-center justify-between px-5 pt-safe pt-4">
         <div className="flex items-center space-x-2">
           <div className="h-0.5 w-8 bg-brand-gradient rounded-full" />
-          <span className="font-mincho text-sm font-bold text-white/80 tracking-widest">KINGYO 打刻端末</span>
+          <span className="font-mincho text-sm font-bold text-white/80 tracking-widest">C-girl 打刻端末</span>
           <div className="h-0.5 w-8 bg-brand-gradient rounded-full" />
         </div>
         <button

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../store/AuthContext';
-import { KingyoIcon } from '../components/KingyoIcon';
+import { CgirlIcon } from '../components/CgirlIcon';
 
 function roleToPath(role: string): string {
   if (role === 'admin') return '/admin';
@@ -47,13 +47,13 @@ export function LoginPage() {
         {/* Branding */}
         <div className="text-center mb-10">
           <div className="flex justify-center mb-5">
-            <KingyoIcon size={88} animate />
+            <CgirlIcon size={88} animate />
           </div>
           <h1 className="font-mincho text-4xl font-bold tracking-wider text-white">
-            Kingyo
+            C-girl
           </h1>
           <p className="text-gold-gradient font-mincho text-xl mt-1 tracking-[0.3em]">
-            金 魚
+            C - girl
           </p>
           <div className="rule-gold w-32 mx-auto mt-4" />
         </div>
@@ -76,7 +76,7 @@ export function LoginPage() {
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="admin@kingyo.local"
+                placeholder="admin@cgirl.local"
                 className="w-full px-4 py-3 bg-white/8 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-gold/60 focus:ring-2 focus:ring-gold/20 text-base transition-colors"
                 onKeyDown={e => e.key === 'Enter' && handleLogin()}
                 autoComplete="email"
@@ -112,7 +112,7 @@ export function LoginPage() {
         </div>
 
         <p className="text-center text-xs text-white/25 mt-6 tracking-wide">
-          admin: admin@kingyo.local / admin1234 &nbsp;|&nbsp; cast: sakura@kingyo.local / sakura1234 &nbsp;|&nbsp; 黒服: kurofuku@kingyo.local / kurofuku1234
+          admin: admin@cgirl.local / admin1234 &nbsp;|&nbsp; cast: sakura@cgirl.local / sakura1234 &nbsp;|&nbsp; 黒服: kurofuku@cgirl.local / kurofuku1234
         </p>
       </div>
     </div>

@@ -3,7 +3,7 @@ import { buildExecSummaryMessages } from '../lib/execSummaryPrompt';
 import type { ExecSummaryCtx } from '../lib/execSummaryPrompt';
 
 const ctx: ExecSummaryCtx = {
-  storeName: 'KINGYO',
+  storeName: 'C-girl',
   month: '2026-09',
   sales: 2810000,
   target: 3000000,
@@ -23,7 +23,7 @@ describe('buildExecSummaryMessages', () => {
 
   it('user メッセージに店名が含まれる', () => {
     const msgs = buildExecSummaryMessages(ctx);
-    expect(msgs[1].content).toContain('KINGYO');
+    expect(msgs[1].content).toContain('C-girl');
   });
 
   it('user メッセージに当月売上が含まれる', () => {

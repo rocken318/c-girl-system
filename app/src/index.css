@@ -1,15 +1,20 @@
 @import "tailwindcss";
 
 /* ═══════════════════════════════════════════════════════
-   KINGYO DESIGN SYSTEM — 和モダン × 高級ナイトラウンジ
+   C-GIRL DESIGN SYSTEM — 和モダン × 高級ナイトラウンジ
    ═══════════════════════════════════════════════════════ */
 
 /* ─── Color Tokens ─── */
 @theme {
-  /* Brand */
-  --color-brand: #c8243e;
-  --color-brand-light: #e8485f;
-  --color-brand-dark: #9a1c30;
+  /* Brand (pink) */
+  --color-brand: #e6398b;
+  --color-brand-light: #f06cae;
+  --color-brand-dark: #b81f6d;
+
+  /* Accent (purple) */
+  --color-accent: #8b5cf6;
+  --color-accent-light: #a78bfa;
+  --color-accent-dark: #7c3aed;
 
   /* Gold */
   --color-gold: #c9a84c;
@@ -37,13 +42,8 @@
   --color-success-bg: #e8f5f0;
   --color-warn: #d4a020;
   --color-warn-bg: #fdf6e3;
-  --color-danger: #c8243e;
+  --color-danger: #dc2626;
   --color-danger-bg: #fef2f2;
-
-  /* Legacy aliases */
-  --color-kingyo: #c8243e;
-  --color-kingyo-light: #e8485f;
-  --color-kingyo-dark: #9a1c30;
 }
 
 /* ─── Base ─── */
@@ -83,7 +83,7 @@ body {
 
 /* ─── Gradient Utilities ─── */
 .bg-brand-gradient {
-  background: linear-gradient(135deg, #c8243e 0%, #a01d32 60%, #7a1526 100%);
+  background: linear-gradient(135deg, #e6398b 0%, #b81f6d 50%, #8b5cf6 100%);
 }
 
 .bg-gold-shimmer {
@@ -149,7 +149,7 @@ body {
   box-shadow: 0 8px 16px rgba(26,26,26,0.06), 0 16px 48px rgba(26,26,26,0.12);
 }
 .shadow-glow {
-  box-shadow: 0 4px 12px rgba(26,26,26,0.08), 0 0 24px rgba(200,36,62,0.15);
+  box-shadow: 0 4px 12px rgba(26,26,26,0.08), 0 0 24px rgba(230,57,139,0.15);
 }
 .shadow-gold {
   box-shadow: 0 4px 12px rgba(26,26,26,0.08), 0 0 24px rgba(201,168,76,0.2);
@@ -182,8 +182,8 @@ body {
   75%      { transform: translateY(4px) rotate(-1deg); }
 }
 @keyframes pulseGlow {
-  0%, 100% { box-shadow: 0 0 20px rgba(200,36,62,0.1); }
-  50%      { box-shadow: 0 0 30px rgba(200,36,62,0.25); }
+  0%, 100% { box-shadow: 0 0 20px rgba(230,57,139,0.1); }
+  50%      { box-shadow: 0 0 30px rgba(230,57,139,0.25); }
 }
 @keyframes ripple {
   0%   { transform: scale(1); opacity: 0.3; }
@@ -267,7 +267,7 @@ body {
   content: '';
   position: absolute;
   border-radius: 50%;
-  border: 1px solid rgba(200,36,62,0.06);
+  border: 1px solid rgba(230,57,139,0.06);
   animation: ripple 6s linear infinite;
 }
 .water-ripple-bg::before {

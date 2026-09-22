@@ -1,5 +1,6 @@
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from 'recharts';
 import type { TrendPoint } from './SalesTrendChart';
+import { BRAND_COLOR } from '../config/brand';
 
 /** Y軸用のコンパクト表記（万単位）。 */
 const fmtMan = (v: number): string => (Number(v) === 0 ? '0' : `${Math.round(Number(v) / 10000)}万`);
@@ -19,7 +20,7 @@ export function SalesCompareChart({ data, mode = 'fit' }: { data: TrendPoint[]; 
       <YAxis tickFormatter={fmtMan} tick={{ fontSize: 10 }} width={40} />
       <Tooltip formatter={(v: number) => `¥${Number(v).toLocaleString()}`} />
       <Legend />
-      <Bar dataKey="current" name="今年" fill="#c8243e" radius={[3, 3, 0, 0]} />
+      <Bar dataKey="current" name="今年" fill={BRAND_COLOR} radius={[3, 3, 0, 0]} />
       <Bar dataKey="lastYear" name="前年" fill="#b8a06a" radius={[3, 3, 0, 0]} />
     </BarChart>
   );

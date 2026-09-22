@@ -188,10 +188,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const loginAsRole = async (role: Role): Promise<void> => {
     // デモ入場用の seed アカウント（ID/パス入力不要）
     const creds: Record<Role, { email: string; password: string }> = {
-      admin: { email: 'admin@kingyo.local', password: 'admin1234' },
-      cast: { email: 'sakura@kingyo.local', password: 'sakura1234' },
-      kurofuku: { email: 'kurofuku@kingyo.local', password: 'kurofuku1234' },
-      terminal: { email: 'terminal@kingyo.local', password: 'terminal1234' },
+      admin: { email: 'admin@cgirl.local', password: 'admin1234' },
+      cast: { email: 'sakura@cgirl.local', password: 'sakura1234' },
+      kurofuku: { email: 'kurofuku@cgirl.local', password: 'kurofuku1234' },
+      terminal: { email: 'terminal@cgirl.local', password: 'terminal1234' },
     };
     const { email, password } = creds[role];
     await supabase.auth.signInWithPassword({ email, password });

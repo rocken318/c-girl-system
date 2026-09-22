@@ -6,7 +6,7 @@ const ctx: ChurnAdviceCtx = {
   sourceName: 'さくら',
   level: 'high',
   reasons: ['売上-40%', '出勤日数減少'],
-  storeName: 'KINGYO',
+  storeName: 'C-girl',
 };
 
 describe('buildChurnAdviceMessages', () => {
@@ -24,7 +24,7 @@ describe('buildChurnAdviceMessages', () => {
 
   it('user メッセージに店名が含まれる', () => {
     const msgs = buildChurnAdviceMessages(ctx);
-    expect(msgs[1].content).toContain('KINGYO');
+    expect(msgs[1].content).toContain('C-girl');
   });
 
   it('user メッセージにリスクレベルが含まれる', () => {
@@ -43,7 +43,7 @@ describe('buildChurnAdviceMessages', () => {
       sourceName: 'さくら',
       level: 'medium',
       reasons: ['売上-20%'],
-      storeName: 'KINGYO',
+      storeName: 'C-girl',
     };
     const msgs = buildChurnAdviceMessages(sensitiveCtx);
     const allContent = msgs.map((m) => m.content).join('\n');
@@ -65,7 +65,7 @@ describe('buildChurnAdviceMessages', () => {
       sourceName: 'もも',
       level: 'medium',
       reasons: ['出勤日数-2日'],
-      storeName: 'KINGYO',
+      storeName: 'C-girl',
     };
     const msgs = buildChurnAdviceMessages(medCtx);
     expect(msgs[1].content).toContain('medium');

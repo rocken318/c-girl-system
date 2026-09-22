@@ -19,7 +19,7 @@ describe('buildAttendanceConfirmMessage', () => {
   it('店名を含めない', () => {
     const msg = buildAttendanceConfirmMessage({ ...base });
     expect(msg).not.toContain('【');
-    expect(msg).not.toContain('KINGYO');
+    expect(msg).not.toContain('C-girl');
   });
 
   it('ヘアメ時間が無い場合はヘアメ行を出さない', () => {

@@ -1,6 +1,6 @@
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../store/AuthContext';
-import { KingyoIcon } from './KingyoIcon';
+import { CgirlIcon } from './CgirlIcon';
 import { DemoBadge } from './DemoBadge';
 import { HomeIcon, ChartIcon, CalendarIcon, SettingsIcon, QrCodeIcon } from './Icons';
 
@@ -25,8 +25,8 @@ export function CastLayout() {
         <div className="h-0.5 bg-brand-gradient" />
         <div className="flex items-center justify-between px-4 py-3">
           <div className="flex items-center gap-2">
-            <KingyoIcon size={28} onDark={false} />
-            <span className="font-mincho font-bold text-brand text-lg">Kingyo</span>
+            <CgirlIcon size={28} onDark={false} />
+            <span className="font-mincho font-bold text-brand text-lg">C-girl</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-brand-gradient text-white flex items-center justify-center text-sm font-bold shadow-soft">

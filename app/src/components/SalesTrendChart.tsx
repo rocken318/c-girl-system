@@ -1,4 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
+import { BRAND_COLOR } from '../config/brand';
 
 export interface TrendPoint { label: string; current: number; lastYear: number }
 
@@ -19,7 +20,7 @@ export function SalesTrendChart({ data, mode = 'fit' }: { data: TrendPoint[]; mo
       />
       <YAxis tickFormatter={fmtMan} tick={{ fontSize: 10 }} width={40} />
       <Tooltip formatter={(v: number) => `¥${Number(v).toLocaleString()}`} />
-      <Line type="monotone" dataKey="current" name="今年" stroke="#c8243e" strokeWidth={2} dot={false} />
+      <Line type="monotone" dataKey="current" name="今年" stroke={BRAND_COLOR} strokeWidth={2} dot={false} />
     </LineChart>
   );
 

@@ -1,4 +1,5 @@
 import type { PayrollResult } from './payroll';
+import { BRAND_COLOR } from '../config/brand';
 
 // ---------------------------------------------------------------------------
 // CSV
@@ -153,7 +154,7 @@ export function downloadCsv(csv: string, filename: string): void {
 // Print HTML helpers
 // ---------------------------------------------------------------------------
 
-const BRAND = '#c8243e';
+const BRAND = BRAND_COLOR;
 const GOLD = '#c9a84c';
 
 /** Shared <style> block for print layouts. */

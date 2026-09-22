@@ -93,7 +93,7 @@ export interface Settings {
 
 export const defaultSettings: Settings = {
   storeId: 'store_1',
-  storeName: 'NEW CLUB Kingyo',
+  storeName: 'C-girl',
 
   hourlyRateMode: 'individual',
   hourlyRates: [

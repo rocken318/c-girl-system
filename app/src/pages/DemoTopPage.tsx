@@ -1,5 +1,6 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../store/AuthContext';
+import { CgirlIcon } from '../components/CgirlIcon';
 
 export function DemoTopPage() {
   const { loginAsRole } = useAuth();
@@ -31,21 +32,15 @@ export function DemoTopPage() {
       <div className="flex flex-col items-center animate-fade-in-up">
         {/* Logo */}
         <div className="mb-6 animate-float">
-          <img
-            src="/kingyo_logo_white_transparent.png"
-            alt="Kingyo Logo"
-            width={120}
-            height={120}
-            className="drop-shadow-lg"
-          />
+          <CgirlIcon size={120} animate />
         </div>
 
         {/* Title */}
         <h1 className="font-mincho text-4xl font-bold text-white tracking-wider mb-1">
-          Kingyo
+          C-girl
         </h1>
         <p className="text-gold-gradient font-mincho text-xl tracking-[0.4em] mb-2">
-          金 魚
+          C - girl
         </p>
 
         {/* Gold rule */}

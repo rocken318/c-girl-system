@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Outlet, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../store/AuthContext';
-import { KingyoIcon } from './KingyoIcon';
+import { CgirlIcon } from './CgirlIcon';
 import { DemoBadge } from './DemoBadge';
 import { StoreSwitcher } from './StoreSwitcher';
 import { ChartIcon, UsersIcon, EditIcon, ClipboardIcon, TrophyIcon, SettingsIcon, LogoutIcon, UploadIcon, CheckCircleIcon, CalendarCheckIcon, ClockIcon, TargetIcon, StarIcon } from './Icons';
@@ -36,9 +36,9 @@ export function AdminLayout() {
   const SidebarContent = () => (
     <>
       <div className="p-5 flex items-center gap-3">
-        <KingyoIcon size={36} />
+        <CgirlIcon size={36} />
         <div>
-          <div className="text-gold-gradient font-mincho font-bold text-lg leading-tight">Kingyo</div>
+          <div className="text-gold-gradient font-mincho font-bold text-lg leading-tight">C-girl</div>
           <div className="text-xs text-white/30">管理画面</div>
         </div>
       </div>
@@ -104,8 +104,8 @@ export function AdminLayout() {
         {/* Mobile top bar */}
         <header className="bg-surface-sidebar flex items-center justify-between px-4 py-3 shrink-0">
           <div className="flex items-center gap-3">
-            <KingyoIcon size={28} />
-            <div className="text-gold-gradient font-mincho font-bold text-base leading-tight">Kingyo</div>
+            <CgirlIcon size={28} />
+            <div className="text-gold-gradient font-mincho font-bold text-base leading-tight">C-girl</div>
           </div>
           <div className="flex items-center gap-2">
             <StoreSwitcher />

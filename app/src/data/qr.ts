@@ -1,4 +1,4 @@
-const PREFIX = 'kingyo:punch:';
+const PREFIX = 'cgirl:punch:';
 
 /** 端末スキャナが解釈するQRペイロード文字列を生成 */
 export function punchPayload(token: string): string {

@@ -4,7 +4,7 @@ import type { DunningContext } from '../lib/dunningPrompt';
 
 const ctx: DunningContext = {
   sourceName: 'さくら',
-  storeName: 'KINGYO',
+  storeName: 'C-girl',
   targetMonth: '2026-10',
   item: 'シフト希望',
 };
@@ -24,7 +24,7 @@ describe('buildDunningMessages', () => {
 
   it('user メッセージに店名が含まれる', () => {
     const msgs = buildDunningMessages(ctx);
-    expect(msgs[1].content).toContain('KINGYO');
+    expect(msgs[1].content).toContain('C-girl');
   });
 
   it('user メッセージに未提出内容が含まれる', () => {
@@ -40,7 +40,7 @@ describe('buildDunningMessages', () => {
   it('本名・連絡先・LINE ID を渡さないことを確認（入力した値以外が露出しない）', () => {
     const sensitiveCtx: DunningContext = {
       sourceName: 'さくら',
-      storeName: 'KINGYO',
+      storeName: 'C-girl',
       targetMonth: '2026-10',
       item: 'シフト希望',
     };
@@ -62,7 +62,7 @@ describe('buildDunningMessages', () => {
 
 describe('fallbackDunning', () => {
   it('店名を含む', () => {
-    expect(fallbackDunning(ctx)).toContain('KINGYO');
+    expect(fallbackDunning(ctx)).toContain('C-girl');
   });
 
   it('源氏名を含む', () => {
