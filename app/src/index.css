@@ -1,0 +1,334 @@
+@import "tailwindcss";
+
+/* ═══════════════════════════════════════════════════════
+   KINGYO DESIGN SYSTEM — 和モダン × 高級ナイトラウンジ
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── Color Tokens ─── */
+@theme {
+  /* Brand */
+  --color-brand: #c8243e;
+  --color-brand-light: #e8485f;
+  --color-brand-dark: #9a1c30;
+
+  /* Gold */
+  --color-gold: #c9a84c;
+  --color-gold-light: #e8d5a0;
+
+  /* Ink */
+  --color-ink: #1a1a1a;
+  --color-ink-secondary: #4a4a4a;
+  --color-ink-tertiary: #8a8a8a;
+  --color-ink-placeholder: #b0b0b0;
+
+  /* Water */
+  --color-water-50: #f0f7fa;
+  --color-water-100: #e0eff5;
+  --color-water-200: #c5e2ed;
+
+  /* Surfaces */
+  --color-surface-base: #f8f6f4;
+  --color-surface-card: #ffffff;
+  --color-surface-dark: #1a1a1a;
+  --color-surface-sidebar: #111111;
+
+  /* Semantic */
+  --color-success: #2d9d78;
+  --color-success-bg: #e8f5f0;
+  --color-warn: #d4a020;
+  --color-warn-bg: #fdf6e3;
+  --color-danger: #c8243e;
+  --color-danger-bg: #fef2f2;
+
+  /* Legacy aliases */
+  --color-kingyo: #c8243e;
+  --color-kingyo-light: #e8485f;
+  --color-kingyo-dark: #9a1c30;
+}
+
+/* ─── Base ─── */
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN", "Noto Sans JP", "Yu Gothic", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  color: #1a1a1a;
+  background: #f8f6f4;
+}
+
+/* ─── Typography ─── */
+.font-serif,
+.font-mincho {
+  font-family: "Hiragino Mincho ProN", "Noto Serif JP", "Yu Mincho", serif;
+}
+
+.text-display {
+  font-family: "Hiragino Mincho ProN", "Noto Serif JP", "Yu Mincho", serif;
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+.text-money-lg {
+  font-family: "Hiragino Mincho ProN", "Noto Serif JP", "Yu Mincho", serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  font-feature-settings: "tnum";
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Gradient Utilities ─── */
+.bg-brand-gradient {
+  background: linear-gradient(135deg, #c8243e 0%, #a01d32 60%, #7a1526 100%);
+}
+
+.bg-gold-shimmer {
+  background: linear-gradient(135deg, #c9a84c 0%, #e8d5a0 40%, #c9a84c 80%);
+  background-size: 200% 100%;
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.text-gold-gradient {
+  background: linear-gradient(135deg, #c9a84c 0%, #e8d5a0 50%, #c9a84c 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-dark-gradient {
+  background: linear-gradient(180deg, #1a1a1a 0%, #2a1520 50%, #1a1a1a 100%);
+}
+
+.bg-surface-warm {
+  background: #f8f6f4;
+}
+
+.bg-water-mesh {
+  background:
+    radial-gradient(ellipse at 20% 80%, rgba(192, 226, 237, 0.15) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(192, 226, 237, 0.10) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(248, 246, 244, 1) 0%, rgba(248, 246, 244, 1) 100%);
+}
+
+/* ─── Glass Card ─── */
+.glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.glass-dark {
+  background: rgba(26, 26, 26, 0.8);
+  backdrop-filter: blur(16px) saturate(1.2);
+  -webkit-backdrop-filter: blur(16px) saturate(1.2);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  will-change: transform;
+}
+
+/* Eliminate 300ms tap delay on touch devices */
+.touch-action-manipulation {
+  touch-action: manipulation;
+}
+
+/* ─── Shadows ─── */
+.shadow-soft {
+  box-shadow: 0 1px 2px rgba(26,26,26,0.04), 0 1px 3px rgba(26,26,26,0.06);
+}
+.shadow-card {
+  box-shadow: 0 2px 4px rgba(26,26,26,0.04), 0 4px 12px rgba(26,26,26,0.08);
+}
+.shadow-elevated {
+  box-shadow: 0 4px 8px rgba(26,26,26,0.04), 0 8px 24px rgba(26,26,26,0.10);
+}
+.shadow-float {
+  box-shadow: 0 8px 16px rgba(26,26,26,0.06), 0 16px 48px rgba(26,26,26,0.12);
+}
+.shadow-glow {
+  box-shadow: 0 4px 12px rgba(26,26,26,0.08), 0 0 24px rgba(200,36,62,0.15);
+}
+.shadow-gold {
+  box-shadow: 0 4px 12px rgba(26,26,26,0.08), 0 0 24px rgba(201,168,76,0.2);
+}
+
+/* ─── Borders ─── */
+.border-gold {
+  border: 1px solid rgba(201, 168, 76, 0.3);
+}
+.border-gold-strong {
+  border: 2px solid rgba(201, 168, 76, 0.5);
+}
+
+/* ─── Keyframe Animations ─── */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes shimmer {
+  0%   { background-position: 200% center; }
+  100% { background-position: -200% center; }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25%      { transform: translateY(-6px) rotate(2deg); }
+  75%      { transform: translateY(4px) rotate(-1deg); }
+}
+@keyframes pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(200,36,62,0.1); }
+  50%      { box-shadow: 0 0 30px rgba(200,36,62,0.25); }
+}
+@keyframes ripple {
+  0%   { transform: scale(1); opacity: 0.3; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Animation utilities */
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.animate-fade-in {
+  animation: fadeIn 0.4s ease both;
+}
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+.animate-pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+.animate-shimmer {
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+/* Fade-in observer (useFadeIn hook) */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.fade-in.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.delay-1 { animation-delay: 0.05s; }
+.delay-2 { animation-delay: 0.1s; }
+.delay-3 { animation-delay: 0.15s; }
+.delay-4 { animation-delay: 0.2s; }
+.delay-5 { animation-delay: 0.25s; }
+
+/* ─── Interactive States ─── */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hover-lift:hover {
+  transform: translateY(-2px);
+}
+.hover-lift:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Focus ring */
+.focus-gold:focus-visible {
+  outline: 2px solid rgba(201, 168, 76, 0.6);
+  outline-offset: 2px;
+}
+
+/* ─── Scroll & Layout ─── */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Water ripple background for login ─── */
+.water-ripple-bg {
+  position: relative;
+  overflow: hidden;
+}
+.water-ripple-bg::before,
+.water-ripple-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(200,36,62,0.06);
+  animation: ripple 6s linear infinite;
+}
+.water-ripple-bg::before {
+  width: 300px; height: 300px;
+  bottom: -100px; left: -50px;
+  animation-delay: 0s;
+}
+.water-ripple-bg::after {
+  width: 200px; height: 200px;
+  top: -60px; right: -40px;
+  animation-delay: 3s;
+}
+
+/* ─── Gold rule (section dividers) ─── */
+.rule-gold {
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, rgba(201,168,76,0.3) 50%, transparent 100%);
+}
+
+/* Water ripple - concentric circles from center */
+@keyframes rippleExpand {
+  0%   { transform: scale(0); opacity: 0.4; }
+  100% { transform: scale(4); opacity: 0; }
+}
+
+.ripple-center::before,
+.ripple-center::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 200px; height: 200px;
+  margin: -100px 0 0 -100px;
+  border-radius: 50%;
+  border: 1px solid rgba(192, 226, 237, 0.15);
+  animation: rippleExpand 6s ease-out infinite;
+}
+.ripple-center::after {
+  animation-delay: 3s;
+}
+
+/* Page transition */
+.page-enter {
+  animation: fadeInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in-up,
+  .animate-fade-in,
+  .animate-float,
+  .animate-pulse-glow,
+  .animate-shimmer,
+  .ripple-center::before,
+  .ripple-center::after,
+  .water-ripple-bg::before,
+  .water-ripple-bg::after {
+    animation: none !important;
+  }
+  .fade-in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
