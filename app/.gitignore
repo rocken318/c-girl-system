@@ -27,3 +27,6 @@ dist-ssr
 .env.local
 supabase/.temp/
 supabase/.branches/
+
+# Keep the example env file tracked (overrides root .env* ignore)
+!.env.local.example
