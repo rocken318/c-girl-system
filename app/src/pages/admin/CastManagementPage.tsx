@@ -215,6 +215,46 @@ export function CastManagementPage() {
     await loadCasts();
   };
 
+  const handleDelete = async (cast: CastRow) => {
+    if (
+      !confirm(
+        `「${cast.source_name}」を完全に削除します。よろしいですか？\n` +
+          `※実績・シフト等の履歴があるキャストは削除できません（その場合は「退店」をご利用ください）。\n` +
+          `※ログインアカウントも一緒に削除されます。`
+      )
+    ) {
+      return;
+    }
+    const { data: sessionData } = await supabase.auth.getSession();
+    const token = sessionData.session?.access_token;
+    if (!token) {
+      alert('セッションが無効です。再ログインしてください');
+      return;
+    }
+    try {
+      const resp = await fetch('/api/casts/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({ castId: cast.id }),
+      });
+      const json = (await resp.json().catch(() => ({}))) as { error?: string };
+      if (!resp.ok) {
+        const map: Record<string, string> = {
+          has_history: '実績・シフト等の履歴があるため削除できません。「退店」をご利用ください',
+          forbidden: '削除する権限がありません',
+          forbidden_store: '別店舗のキャストは削除できません',
+          not_found: 'キャストが見つかりません',
+        };
+        alert(map[json.error ?? ''] ?? `削除に失敗しました: ${json.error ?? `HTTP ${resp.status}`}`);
+        return;
+      }
+    } catch {
+      alert('削除に失敗しました（通信エラー）');
+      return;
+    }
+    await loadCasts();
+  };
+
   const inputClass =
     'w-full border border-ink/10 rounded-xl px-3 py-2 text-sm bg-white focus:outline-none focus:border-gold/60 focus:ring-2 focus:ring-gold/20 transition-colors';
 
@@ -303,11 +343,17 @@ export function CastManagementPage() {
                       {cast.status === 'active' && (
                         <button
                           onClick={() => void handleRetire(cast.id)}
-                          className="text-xs text-ink-tertiary hover:text-danger transition-colors touch-manipulation py-1"
+                          className="text-xs text-ink-tertiary hover:text-danger transition-colors touch-manipulation py-1 mr-3"
                         >
                           退店
                         </button>
                       )}
+                      <button
+                        onClick={() => void handleDelete(cast)}
+                        className="text-xs text-danger/80 hover:text-danger font-medium transition-colors touch-manipulation py-1"
+                      >
+                        削除
+                      </button>
                     </td>
                   </tr>
                 ))}
