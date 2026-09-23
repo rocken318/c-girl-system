@@ -73,6 +73,17 @@ export function CastManagementPage() {
     });
   };
 
+  const openAdd = () => {
+    setEditing({
+      castId: '', // 空 = 新規追加モード
+      source_name: '',
+      rank: '',
+      join_date: '',
+      status: 'active',
+      hourlyRate: 0,
+    });
+  };
+
   const closeEdit = () => {
     if (saving) return;
     setEditing(null);
@@ -80,29 +91,64 @@ export function CastManagementPage() {
 
   const saveEdit = async () => {
     if (!editing) return;
-    setSaving(true);
-    const { error } = await supabase
-      .from('casts')
-      .update({
-        source_name: editing.source_name,
-        rank: editing.rank || null,
-        join_date: editing.join_date || null,
-        status: editing.status,
-      })
-      .eq('id', editing.castId);
-    setSaving(false);
-
-    if (error) {
-      alert(`保存に失敗しました: ${error.message}`);
+    const isNew = editing.castId === '';
+    const sourceName = editing.source_name.trim();
+    if (!sourceName) {
+      alert('源氏名を入力してください');
       return;
     }
+    if (isNew && !activeStoreId) {
+      alert('店舗が選択されていません');
+      return;
+    }
+    setSaving(true);
+
+    // 新規は insert（store_id は自店・casts_admin_write RLS で許可）、既存は update。
+    // 永続化後の castId を後続の時給 upsert に使う。
+    let castId = editing.castId;
+    if (isNew) {
+      const { data, error } = await supabase
+        .from('casts')
+        .insert({
+          store_id: activeStoreId,
+          source_name: sourceName,
+          rank: editing.rank || null,
+          join_date: editing.join_date || null,
+          status: editing.status,
+        })
+        .select('id')
+        .single();
+      if (error || !data) {
+        setSaving(false);
+        alert(`追加に失敗しました: ${error?.message ?? '不明なエラー'}`);
+        return;
+      }
+      castId = data.id;
+    } else {
+      const { error } = await supabase
+        .from('casts')
+        .update({
+          source_name: sourceName,
+          rank: editing.rank || null,
+          join_date: editing.join_date || null,
+          status: editing.status,
+        })
+        .eq('id', castId);
+      if (error) {
+        setSaving(false);
+        alert(`保存に失敗しました: ${error.message}`);
+        return;
+      }
+    }
+    setSaving(false);
+
     // 時給を settings.hourlyRates に upsert（settings テーブル・admin RLS）
-    const exists = settings.hourlyRates.some(r => r.castId === editing.castId);
+    const exists = settings.hourlyRates.some(r => r.castId === castId);
     const nextRates = exists
       ? settings.hourlyRates.map(r =>
-          r.castId === editing.castId ? { ...r, hourlyRate: editing.hourlyRate } : r
+          r.castId === castId ? { ...r, hourlyRate: editing.hourlyRate } : r
         )
-      : [...settings.hourlyRates, { castId: editing.castId, hourlyRate: editing.hourlyRate }];
+      : [...settings.hourlyRates, { castId, hourlyRate: editing.hourlyRate }];
     updateSettings({ hourlyRates: nextRates });
 
     setEditing(null);
@@ -128,7 +174,11 @@ export function CastManagementPage() {
     <div className="p-4 md:p-6 space-y-4 md:space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="font-mincho text-xl md:text-2xl font-bold text-ink">キャスト管理</h1>
-        <button className="bg-brand-gradient text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-glow transition-all active:scale-95">
+        <button
+          onClick={openAdd}
+          disabled={!activeStoreId}
+          className="bg-brand-gradient text-white px-4 py-2 rounded-xl text-sm font-medium hover:shadow-glow transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           ＋ キャスト追加
         </button>
       </div>
@@ -248,7 +298,7 @@ export function CastManagementPage() {
 
             <div className="p-6 space-y-5">
               <div className="flex items-center justify-between">
-                <h2 className="font-mincho font-bold text-ink text-lg">キャスト編集</h2>
+                <h2 className="font-mincho font-bold text-ink text-lg">{editing.castId === '' ? 'キャスト追加' : 'キャスト編集'}</h2>
                 <button
                   onClick={closeEdit}
                   className="text-ink-tertiary hover:text-ink transition-colors p-1 touch-manipulation"
