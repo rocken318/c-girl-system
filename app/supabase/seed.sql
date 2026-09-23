@@ -1,6 +1,6 @@
-﻿-- =============================================================
+-- =============================================================
 -- seed.sql  ローカル開発用シード（supabase db reset で自動適用）
--- 実2店（Kingyo/B club）+ 統合閲覧(owner/常務) + 兼務黒服
+-- 実2店（C-girl/B club）+ 統合閲覧(owner/常務) + 兼務黒服
 -- SAKURA 給与回帰基準: ¥396,000
 --   basePay 210,000 + commission 115,000 + backs 79,500 - deductions 8,500
 -- =============================================================
@@ -9,7 +9,7 @@
 -- 固定UUID定数（このファイル内で一貫して使用）
 -- -------------------------------------------------------------
 -- stores:
---   Kingyo:  'aaaaaaaa-0000-0000-0000-000000000001'
+--   C-girl:  'aaaaaaaa-0000-0000-0000-000000000001'
 --   B club:  'aaaaaaaa-0000-0000-0000-000000000002'
 -- staff（bbbbbbbb prefix）:
 --   admin:    'bbbbbbbb-0000-0000-0000-000000000001'
@@ -36,10 +36,10 @@
 -- 1. auth.users（profiles が参照するため先に挿入）
 --    ローカルseed専用。必須 NOT NULL カラムを最小限補完する。
 --    ログイン可能なアカウント（pgcrypto で bcrypt ハッシュを設定）:
---      admin@kingyo.local    / admin1234
---      sakura@kingyo.local   / sakura1234
---      kurofuku@kingyo.local / kurofuku1234
---      terminal@kingyo.local / terminal1234
+--      admin@cgirl.local    / admin1234
+--      sakura@cgirl.local   / sakura1234
+--      kurofuku@cgirl.local / kurofuku1234
+--      terminal@cgirl.local / terminal1234
 -- =============================================================
 -- pgcrypto が extensions スキーマにある場合に備えて明示的に有効化
 create extension if not exists pgcrypto with schema extensions;
@@ -66,7 +66,7 @@ insert into auth.users (
   ('bbbbbbbb-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'admin@kingyo.local',
+   'admin@cgirl.local',
    extensions.crypt('admin1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -75,7 +75,7 @@ insert into auth.users (
   ('bbbbbbbb-0000-0000-0000-000000000002',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'terminal@kingyo.local',
+   'terminal@cgirl.local',
    extensions.crypt('terminal1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -84,7 +84,7 @@ insert into auth.users (
   ('bbbbbbbb-0000-0000-0000-000000000003',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'kurofuku@kingyo.local',
+   'kurofuku@cgirl.local',
    extensions.crypt('kurofuku1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -93,7 +93,7 @@ insert into auth.users (
   ('cccccccc-0000-0000-0000-000000000001',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'sakura@kingyo.local',
+   'sakura@cgirl.local',
    extensions.crypt('sakura1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -102,35 +102,35 @@ insert into auth.users (
   ('cccccccc-0000-0000-0000-000000000002',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'rin@kingyo.local', '', now(), now(), now(),
+   'rin@cgirl.local', '', now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
    false, '', '', '', ''),
   -- YUI
   ('cccccccc-0000-0000-0000-000000000003',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'yui@kingyo.local', '', now(), now(), now(),
+   'yui@cgirl.local', '', now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
    false, '', '', '', ''),
   -- HANA
   ('cccccccc-0000-0000-0000-000000000004',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'hana@kingyo.local', '', now(), now(), now(),
+   'hana@cgirl.local', '', now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
    false, '', '', '', ''),
   -- MIKU
   ('cccccccc-0000-0000-0000-000000000005',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'miku@kingyo.local', '', now(), now(), now(),
+   'miku@cgirl.local', '', now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
    false, '', '', '', ''),
   -- jomu（常務 / 統合閲覧）  password: jomu1234
   ('bbbbbbbb-0000-0000-0000-00000000000e',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'jomu@kingyo.local',
+   'jomu@cgirl.local',
    extensions.crypt('jomu1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -139,7 +139,7 @@ insert into auth.users (
   ('bbbbbbbb-0000-0000-0000-00000000000f',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'owner@kingyo.local',
+   'owner@cgirl.local',
    extensions.crypt('owner1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -148,7 +148,7 @@ insert into auth.users (
   ('bbbbbbbb-0000-0000-0000-000000000010',
    '00000000-0000-0000-0000-000000000000',
    'authenticated', 'authenticated',
-   'badmin@kingyo.local',
+   'badmin@cgirl.local',
    extensions.crypt('badmin1234', extensions.gen_salt('bf')),
    now(), now(), now(),
    '{"provider":"email","providers":["email"]}'::jsonb, '{}'::jsonb,
@@ -161,7 +161,7 @@ on conflict (id) do nothing;
 insert into public.stores (id, name, closing_day, payment_day, business_day_cutover_hour, settings)
 values (
   'aaaaaaaa-0000-0000-0000-000000000001',
-  'NEW CLUB Kingyo',
+  'C-girl',
   'end_of_month',
   '翌月15日',
   6,
@@ -169,9 +169,9 @@ values (
 )
 on conflict (id) do nothing;
 
--- Kingyo を実店舗情報にカラム更新（kind/area/address は 0007 で追加済）
+-- C-girl を実店舗情報にカラム更新（kind/area/address は 0007 で追加済）
 update public.stores set
-  name = 'NEWCLUB Kingyo', kind = 'cabaret',
+  name = 'C-girl', kind = 'cabaret',
   area = '仙台・国分町', address = '仙台市青葉区国分町2-12-4 セブンヴィレッジビル2F',
   business_day_cutover_hour = 6
 where id = 'aaaaaaaa-0000-0000-0000-000000000001';
@@ -225,12 +225,12 @@ on conflict (id) do nothing;
 -- is_integrated_viewer / active_store_id は 0007 で追加されたカラム
 insert into public.profiles (id, store_id, role, display_name, status, punch_token, is_integrated_viewer, active_store_id)
 values
-  -- jomu（常務 / 統合閲覧 / Kingyo に所属）
+  -- jomu（常務 / 統合閲覧 / C-girl に所属）
   ('bbbbbbbb-0000-0000-0000-00000000000e',
    'aaaaaaaa-0000-0000-0000-000000000001',
    'admin', '常務', 'active', null, true,
    'aaaaaaaa-0000-0000-0000-000000000001'),
-  -- owner（オーナー / 統合閲覧 / Kingyo に所属）
+  -- owner（オーナー / 統合閲覧 / C-girl に所属）
   ('bbbbbbbb-0000-0000-0000-00000000000f',
    'aaaaaaaa-0000-0000-0000-000000000001',
    'admin', 'オーナー', 'active', null, true,
@@ -257,7 +257,7 @@ update public.profiles set active_store_id = store_id where active_store_id is n
 -- 3c. 新規アカウントの明示的 membership
 --     backfill は既存 profiles のみ対象なので seed で明示 insert する
 -- =============================================================
--- jomu（常務）: Kingyo / admin / primary
+-- jomu（常務）: C-girl / admin / primary
 insert into public.user_store_memberships (user_id, store_id, role, is_primary, status)
 values
   ('bbbbbbbb-0000-0000-0000-00000000000e',
@@ -265,7 +265,7 @@ values
    'admin', true, 'active')
 on conflict (user_id, store_id) do nothing;
 
--- owner（オーナー）: Kingyo / admin / primary
+-- owner（オーナー）: C-girl / admin / primary
 insert into public.user_store_memberships (user_id, store_id, role, is_primary, status)
 values
   ('bbbbbbbb-0000-0000-0000-00000000000f',
@@ -332,7 +332,7 @@ values (
   'aaaaaaaa-0000-0000-0000-000000000001',
   '{
     "storeId": "aaaaaaaa-0000-0000-0000-000000000001",
-    "storeName": "NEW CLUB Kingyo",
+    "storeName": "C-girl",
     "hourlyRateMode": "individual",
     "hourlyRates": [
       {"castId": "dddddddd-0000-0000-0000-000000000001", "hourlyRate": 3000},
