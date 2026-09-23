@@ -33,7 +33,7 @@ export function LoginPage() {
     try {
       const success = await login(email.trim(), password);
       if (!success) {
-        setError('メールアドレスまたはパスワードが正しくありません');
+        setError('ログインIDまたはパスワードが正しくありません');
       }
       // 成功時は onAuthStateChange → user が更新 → 上の useEffect が遷移する
     } finally {
@@ -70,16 +70,18 @@ export function LoginPage() {
           <div className="space-y-4">
             <div>
               <label className="block text-xs font-medium text-white/60 mb-1.5 tracking-wide">
-                メールアドレス
+                ログインID（またはメール）
               </label>
               <input
-                type="email"
+                type="text"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
-                placeholder="admin@cgirl.local"
+                placeholder="例: sakura"
                 className="w-full px-4 py-3 bg-white/8 border border-white/10 rounded-xl text-white placeholder-white/30 focus:outline-none focus:border-gold/60 focus:ring-2 focus:ring-gold/20 text-base transition-colors"
                 onKeyDown={e => e.key === 'Enter' && handleLogin()}
-                autoComplete="email"
+                autoComplete="username"
+                autoCapitalize="none"
+                autoCorrect="off"
               />
             </div>
             <div>

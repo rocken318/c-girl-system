@@ -170,8 +170,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // ログイン（email + password）
-  const login = async (email: string, password: string): Promise<boolean> => {
+  // ログイン（ログインID または email + password）
+  // ID だけ入力された場合は合成メール <id>@cgirl.local に変換（キャストは ID+パスワードでログイン）
+  const login = async (identifier: string, password: string): Promise<boolean> => {
+    const id = identifier.trim();
+    const email = id.includes('@') ? id : `${id.toLowerCase()}@cgirl.local`;
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,

@@ -14,12 +14,14 @@ interface CastRow {
 }
 
 type EditState = {
-  castId: string;
+  castId: string; // '' = 新規追加モード
   source_name: string;
   rank: string;
   join_date: string;
   status: 'active' | 'inactive';
   hourlyRate: number;
+  loginId: string; // 新規追加時のみ: ログインID（<id>@cgirl.local に変換）
+  password: string; // 新規追加時のみ: 初期パスワード
 };
 
 export function CastManagementPage() {
@@ -70,6 +72,8 @@ export function CastManagementPage() {
       join_date: cast.join_date ?? '',
       status: cast.status,
       hourlyRate: settings.hourlyRates.find(r => r.castId === cast.id)?.hourlyRate ?? 0,
+      loginId: '',
+      password: '',
     });
   };
 
@@ -81,6 +85,8 @@ export function CastManagementPage() {
       join_date: '',
       status: 'active',
       hourlyRate: 0,
+      loginId: '',
+      password: '',
     });
   };
 
@@ -101,29 +107,71 @@ export function CastManagementPage() {
       alert('店舗が選択されていません');
       return;
     }
+    // 新規追加はログインID・初期パスワードを検証（<id>@cgirl.local で作成）
+    const loginId = editing.loginId.trim().toLowerCase();
+    if (isNew) {
+      if (!/^[a-z0-9._-]{3,32}$/.test(loginId)) {
+        alert('ログインIDは半角英数字と ._- の3〜32文字で入力してください');
+        return;
+      }
+      if (editing.password.length < 6) {
+        alert('初期パスワードは6文字以上で入力してください');
+        return;
+      }
+    }
     setSaving(true);
 
-    // 新規は insert（store_id は自店・casts_admin_write RLS で許可）、既存は update。
+    // 新規は発行API（service role で auth+profile+membership+casts を一括作成）、既存は update。
     // 永続化後の castId を後続の時給 upsert に使う。
     let castId = editing.castId;
     if (isNew) {
-      const { data, error } = await supabase
-        .from('casts')
-        .insert({
-          store_id: activeStoreId,
-          source_name: sourceName,
-          rank: editing.rank || null,
-          join_date: editing.join_date || null,
-          status: editing.status,
-        })
-        .select('id')
-        .single();
-      if (error || !data) {
+      const { data: sessionData } = await supabase.auth.getSession();
+      const token = sessionData.session?.access_token;
+      if (!token) {
         setSaving(false);
-        alert(`追加に失敗しました: ${error?.message ?? '不明なエラー'}`);
+        alert('セッションが無効です。再ログインしてください');
         return;
       }
-      castId = data.id;
+      let json: { castId?: string; error?: string } = {};
+      try {
+        const resp = await fetch('/api/casts/provision', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+          body: JSON.stringify({
+            storeId: activeStoreId,
+            loginId,
+            password: editing.password,
+            source_name: sourceName,
+            rank: editing.rank,
+            join_date: editing.join_date,
+            status: editing.status,
+          }),
+        });
+        json = (await resp.json().catch(() => ({}))) as { castId?: string; error?: string };
+        if (!resp.ok) {
+          setSaving(false);
+          const map: Record<string, string> = {
+            login_id_taken: 'そのログインIDは既に使われています',
+            invalid_login_id: 'ログインIDの形式が不正です',
+            weak_password: '初期パスワードは6文字以上にしてください',
+            invalid_source_name: '源氏名を入力してください',
+            forbidden: '追加する権限がありません',
+            forbidden_store: '別店舗への追加はできません',
+          };
+          alert(`追加に失敗しました: ${map[json.error ?? ''] ?? json.error ?? `HTTP ${resp.status}`}`);
+          return;
+        }
+      } catch {
+        setSaving(false);
+        alert('追加に失敗しました（通信エラー）');
+        return;
+      }
+      if (!json.castId) {
+        setSaving(false);
+        alert('追加に失敗しました（不正な応答）');
+        return;
+      }
+      castId = json.castId;
     } else {
       const { error } = await supabase
         .from('casts')
@@ -320,6 +368,35 @@ export function CastManagementPage() {
                   className={inputClass}
                 />
               </div>
+
+              {/* ログイン情報（新規追加時のみ） */}
+              {editing.castId === '' && (
+                <>
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-ink-secondary">ログインID</label>
+                    <input
+                      type="text"
+                      value={editing.loginId}
+                      onChange={e => setEditing(prev => prev && { ...prev, loginId: e.target.value })}
+                      className={inputClass}
+                      placeholder="例: sakura（半角英数字・._-）"
+                      autoCapitalize="none"
+                      autoCorrect="off"
+                    />
+                    <p className="text-xs text-ink-tertiary">このID＋パスワードでキャストがログインします</p>
+                  </div>
+                  <div className="space-y-1">
+                    <label className="text-sm font-medium text-ink-secondary">初期パスワード</label>
+                    <input
+                      type="text"
+                      value={editing.password}
+                      onChange={e => setEditing(prev => prev && { ...prev, password: e.target.value })}
+                      className={inputClass}
+                      placeholder="6文字以上"
+                    />
+                  </div>
+                </>
+              )}
 
               {/* ランク */}
               <div className="space-y-1">
